@@ -72,8 +72,8 @@ export default function LoginPage() {
           className="bg-navy-card rounded-[20px] p-6 border border-border-subtle"
         >
           <div className="text-center mb-6">
-            <span className="text-xs font-semibold tracking-widest text-coral uppercase">
-              MatchCoach
+            <span className="text-xs font-semibold tracking-widest text-coral">
+              AIme
             </span>
             <h1 className="text-xl font-bold text-text-primary mt-2">
               ログイン

@@ -65,8 +65,8 @@ export default function LandingPage() {
           transition={{ duration: 0.6 }}
           className="pt-12 pb-2"
         >
-          <span className="text-sm font-semibold tracking-widest text-coral uppercase">
-            MatchCoach
+          <span className="text-sm font-semibold tracking-widest text-coral">
+            AIme
           </span>
         </motion.div>
 
@@ -78,9 +78,7 @@ export default function LandingPage() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-3xl sm:text-4xl font-bold leading-tight text-text-primary mb-4"
           >
-            マッチングを、
-            <br />
-            <span className="text-coral">もっと賢く。</span>
+            <span className="text-coral">AIme</span> が目指す世界
           </motion.h1>
 
           <motion.p
@@ -89,9 +87,7 @@ export default function LandingPage() {
             transition={{ duration: 0.7, delay: 0.4 }}
             className="text-text-secondary text-base leading-relaxed mb-8 max-w-[320px]"
           >
-            自己分析・相性診断・トーク改善。
-            <br />
-            データに基づいて、あなたの恋愛を支援します。
+            AImeは、あなたの人生の選択に寄り添い、後悔のない未来へと導きます。
           </motion.p>
 
           <motion.div

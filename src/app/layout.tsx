@@ -9,8 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MatchCoach - マッチングを、もっと賢く",
-  description: "マッチングアプリ利用者を支援する分析・コーチングツール",
+  title: "AIme",
+  description: "AImeは、あなたの人生の選択に寄り添い、後悔のない未来へと導きます。",
 };
 
 export default function RootLayout({
