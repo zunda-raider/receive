@@ -114,8 +114,9 @@ export default function DateCalendar({ selectedDate }: { selectedDate?: string }
           return (
             <div key={`${day ?? "blank"}-${index}`} className="flex h-10 items-center justify-center">
               {event && !event.isCustom ? (
-                <Link href={`/date?date=${event.date}`} aria-label={`${event.title}の目標設定を開く`} className={`relative flex items-center justify-center overflow-hidden rounded-full text-xs font-semibold transition-colors ${isSelected ? "h-9 w-9 bg-teal text-navy shadow-[0_0_18px_rgba(78,205,196,0.28)]" : "h-8 w-8 text-text-primary hover:bg-navy-light"}`}>
-                  {day}<span className="absolute -bottom-0.5 h-1 w-1 rounded-full bg-teal" />
+                <Link href={`/date?date=${event.date}`} aria-label={`${event.title}の目標設定を開く`} className={`relative flex items-center justify-center rounded-full text-xs font-semibold transition-colors ${isSelected ? "h-9 w-9 bg-teal text-navy shadow-[0_0_18px_rgba(78,205,196,0.28)]" : "h-8 w-8 text-text-primary hover:bg-navy-light"}`}>
+                  {day}
+                  {!isSelected ? <span className="absolute -bottom-0.5 h-1 w-1 rounded-full bg-teal" /> : null}
                 </Link>
               ) : event ? (
                 <button type="button" onClick={() => openRegistration(event.date, event)} aria-label={`${event.title}を編集`} className="relative flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold text-text-primary transition-colors hover:bg-navy-light">
