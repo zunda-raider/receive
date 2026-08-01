@@ -1,64 +1,11 @@
 "use client";
 import AuthGuard from "@/components/AuthGuard";
 import BottomTabBar from "@/components/BottomTabBar";
+import DateCalendar from "@/components/DateCalendar";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
-import { calendarEvents, activityData, todayHint } from "@/lib/mock-data";
-import { Calendar, Flag, Lightbulb, TrendingUp } from "lucide-react";
-
-function MiniCalendar() {
-  const now = new Date(2026, 7, 1); // 2026年8月
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const today = 1;
-
-  const eventDates = calendarEvents.map((e) => {
-    const d = new Date(e.date);
-    return d.getDate();
-  });
-
-  const days = [];
-  for (let i = 0; i < firstDay; i++) days.push(null);
-  for (let i = 1; i <= daysInMonth; i++) days.push(i);
-
-  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
-
-  return (
-    <div>
-      <div className="grid grid-cols-7 gap-0.5 mb-1">
-        {weekdays.map((w) => (
-          <div key={w} className="text-center text-[10px] text-text-secondary py-1">
-            {w}
-          </div>
-        ))}
-      </div>
-      <div className="grid grid-cols-7 gap-0.5">
-        {days.map((day, i) => (
-          <div key={i} className="relative flex items-center justify-center h-8">
-            {day && (
-              <>
-                <span
-                  className={`text-xs ${
-                    day === today
-                      ? "bg-coral text-white w-6 h-6 rounded-full flex items-center justify-center font-bold"
-                      : "text-text-primary"
-                  }`}
-                >
-                  {day}
-                </span>
-                {eventDates.includes(day) && day !== today && (
-                  <div className="absolute bottom-0.5 w-1 h-1 rounded-full bg-teal" />
-                )}
-              </>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+import { activityData, todayHint } from "@/lib/mock-data";
+import { Flag, Lightbulb, TrendingUp } from "lucide-react";
 
 function ActivityChart() {
   const max = Math.max(...activityData.map((d) => d.count));
@@ -80,7 +27,6 @@ function ActivityChart() {
 export default function HomePage() {
   const { user } = useAuth();
 
-  const upcomingEvents = calendarEvents.slice(0, 2);
   const summaryCards = [
     { label: "今月のマッチ", value: "12", color: "text-coral" },
     { label: "やり取り中", value: "4", color: "text-teal" },
@@ -107,7 +53,7 @@ export default function HomePage() {
             {getGreeting()}、{user.nickname}さん
           </h1>
           <p className="text-xs text-text-secondary mt-0.5">
-            2026年8月1日（金）
+            2026年8月2日（日）
           </p>
         </div>
 
@@ -138,33 +84,7 @@ export default function HomePage() {
         </div>
 
         {/* Calendar */}
-        <div className="bg-navy-card rounded-[20px] p-4 border border-border-subtle mb-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Calendar size={16} className="text-teal" />
-            <h2 className="text-sm font-semibold text-text-primary">8月のカレンダー</h2>
-          </div>
-          <MiniCalendar />
-          <div className="mt-3 space-y-2">
-            {upcomingEvents.map((evt, i) => {
-              const d = new Date(evt.date);
-              const weekday = ["日", "月", "火", "水", "木", "金", "土"][d.getDay()];
-              return (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 bg-navy-light rounded-xl px-3 py-2"
-                >
-                  <div className="w-1 h-8 rounded-full bg-teal" />
-                  <div>
-                    <p className="text-xs text-text-primary font-medium">
-                      {d.getMonth() + 1}/{d.getDate()}({weekday}) {evt.time}
-                    </p>
-                    <p className="text-[11px] text-text-secondary">{evt.title}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <div className="mb-4"><DateCalendar /></div>
 
         {/* Activity */}
         <div className="bg-navy-card rounded-[20px] p-4 border border-border-subtle mb-4">

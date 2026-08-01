@@ -30,13 +30,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Restore from sessionStorage
   useEffect(() => {
-    try {
-      const saved = sessionStorage.getItem("auth-state");
-      if (saved) {
-        setState(JSON.parse(saved));
-      }
-    } catch {}
-    setHydrated(true);
+    let active = true;
+    queueMicrotask(() => {
+      if (!active) return;
+      try {
+        const saved = sessionStorage.getItem("auth-state");
+        if (saved) {
+          setState(JSON.parse(saved));
+        }
+      } catch {}
+      setHydrated(true);
+    });
+    return () => {
+      active = false;
+    };
   }, []);
 
   // Persist to sessionStorage
