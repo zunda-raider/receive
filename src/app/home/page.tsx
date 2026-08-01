@@ -27,12 +27,6 @@ function ActivityChart() {
 export default function HomePage() {
   const { user } = useAuth();
 
-  const summaryCards = [
-    { label: "今月のマッチ", value: "12", color: "text-coral" },
-    { label: "やり取り中", value: "4", color: "text-teal" },
-    { label: "返信待ち", value: "2", color: "text-text-secondary" },
-  ];
-
   const getGreeting = () => {
     const h = 18; // 18:00
     if (h < 12) return "おはようございます";
@@ -70,17 +64,14 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Summary cards */}
-        <div className="grid grid-cols-3 gap-2.5 mb-5">
-          {summaryCards.map((card) => (
-            <div
-              key={card.label}
-              className="bg-navy-card rounded-[16px] p-3 border border-border-subtle text-center"
-            >
-              <p className={`text-2xl font-bold ${card.color}`}>{card.value}</p>
-              <p className="text-[10px] text-text-secondary mt-0.5">{card.label}</p>
+        {/* Hint */}
+        <div className="mb-5 rounded-[20px] border border-border-subtle bg-navy-card p-4">
+          <div className="flex items-start gap-3">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-coral/10">
+              <Lightbulb size={16} className="text-coral" />
             </div>
-          ))}
+            <p className="text-xs leading-relaxed text-text-secondary">{todayHint}</p>
+          </div>
         </div>
 
         {/* Calendar */}
@@ -95,15 +86,6 @@ export default function HomePage() {
           <ActivityChart />
         </div>
 
-        {/* Hint */}
-        <div className="bg-navy-card rounded-[20px] p-4 border border-border-subtle">
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-xl bg-coral/10 flex items-center justify-center shrink-0">
-              <Lightbulb size={16} className="text-coral" />
-            </div>
-            <p className="text-xs text-text-secondary leading-relaxed">{todayHint}</p>
-          </div>
-        </div>
       </motion.div>
       <BottomTabBar />
     </AuthGuard>
