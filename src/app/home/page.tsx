@@ -6,20 +6,60 @@ import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { activityData, todayHint } from "@/lib/mock-data";
 import { Flag, Lightbulb, TrendingUp } from "lucide-react";
+import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 function ActivityChart() {
-  const max = Math.max(...activityData.map((d) => d.count));
+  const chronologicalActivity = [...activityData].sort((a, b) =>
+    a.date.localeCompare(b.date),
+  );
+  const max = Math.max(...chronologicalActivity.map((activity) => activity.points));
+  const chartData = chronologicalActivity.map((activity) => {
+    const [, month, day] = activity.date.split("-");
+
+    return {
+      ...activity,
+      label: `${Number(month)}/${Number(day)}`,
+    };
+  });
+
   return (
-    <div className="flex items-end gap-2 h-20">
-      {activityData.map((d) => (
-        <div key={d.day} className="flex-1 flex flex-col items-center gap-1">
-          <div
-            className="w-full rounded-t-md bg-teal/70"
-            style={{ height: `${(d.count / max) * 100}%`, minHeight: 4 }}
+    <div
+      className="h-24 w-full"
+      role="img"
+      aria-label="7月27日から8月2日までのアクティビティポイント折れ線グラフ"
+    >
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={chartData} margin={{ top: 6, right: 8, bottom: 0, left: 8 }}>
+          <XAxis
+            dataKey="label"
+            axisLine={false}
+            tickLine={false}
+            tick={{ fill: "#8A94A6", fontSize: 10 }}
+            interval={0}
           />
-          <span className="text-[10px] text-text-secondary">{d.day}</span>
-        </div>
-      ))}
+          <YAxis hide domain={[0, max]} />
+          <Tooltip
+            cursor={{ stroke: "rgba(78,205,196,0.2)" }}
+            contentStyle={{
+              background: "#182238",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 10,
+              color: "#F7F8FA",
+              fontSize: 12,
+            }}
+            formatter={(value) => [`${value} pts`, "ポイント"]}
+            labelStyle={{ color: "#8A94A6" }}
+          />
+          <Line
+            type="linear"
+            dataKey="points"
+            stroke="#4ECDC4"
+            strokeWidth={2.5}
+            dot={{ r: 3, fill: "#4ECDC4", strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: "#FF7A59", strokeWidth: 0 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 }

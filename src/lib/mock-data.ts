@@ -428,13 +428,13 @@ export const latestPastDate: PastDate = {
 };
 
 export const activityData = [
-  { day: "月", count: 8 },
-  { day: "火", count: 12 },
-  { day: "水", count: 5 },
-  { day: "木", count: 15 },
-  { day: "金", count: 10 },
-  { day: "土", count: 18 },
-  { day: "日", count: 7 },
+  { date: "2026-07-27", points: 19 },
+  { date: "2026-07-28", points: 4 },
+  { date: "2026-07-29", points: 7 },
+  { date: "2026-07-30", points: 2 },
+  { date: "2026-07-31", points: 6 },
+  { date: "2026-08-01", points: 3 },
+  { date: "2026-08-02", points: 5 },
 ];
 
 export const todayHint = "今日のヒント：じっくり型のあなたは、焦らず相手のペースも尊重しましょう。返信を待つ時間も信頼構築の一部です。";
