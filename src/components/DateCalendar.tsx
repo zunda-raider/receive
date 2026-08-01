@@ -150,7 +150,6 @@ export default function DateCalendar({ selectedDate }: { selectedDate?: string }
               <p className="text-[10px] font-medium text-text-primary">{Number(event.date.slice(5, 7))}/{Number(event.date.slice(-2))} {event.time}</p>
               <p className="truncate text-[10px] text-text-secondary">{event.title}</p>
             </div>
-            <span className="text-[9px] font-medium text-teal">目標設定</span>
           </Link>
         ))}
       </div>
