@@ -28,6 +28,7 @@ import GeneratedAvatar from "@/components/GeneratedAvatar";
 import {
   datePlans,
   latestPastDate,
+  upcomingDatePlan,
   type DatePlan,
 } from "@/lib/mock-data";
 
@@ -263,7 +264,7 @@ function DatePlanContent({ datePlan }: { datePlan: DatePlan }) {
           <p className="mt-1 text-xs text-text-secondary">当日を自然体で楽しむために、少しだけ準備しておきましょう。</p>
         </header>
 
-        <DateCalendar selectedDate={datePlan.date} />
+        <DateCalendar selectedDate={datePlan.date} linkCustomEvents />
 
         {!reviewCompleted ? (
           <section className="rounded-[20px] border border-coral/30 bg-coral/10 p-4">
@@ -409,7 +410,21 @@ function DatePlanContent({ datePlan }: { datePlan: DatePlan }) {
 function DatePageFromSearch() {
   const searchParams = useSearchParams();
   const selectedDate = searchParams.get("date") ?? "2026-08-05";
-  const datePlan = datePlans.find((plan) => plan.date === selectedDate) ?? datePlans[1];
+  const customTitle = searchParams.get("title");
+  const customTime = searchParams.get("time");
+  const registeredPlan = datePlans.find((plan) => plan.date === selectedDate);
+  const partnerName = customTitle?.match(/^(.+?)さん/)?.[1];
+  const datePlan = registeredPlan ?? (customTitle && customTime ? {
+    ...upcomingDatePlan,
+    id: `custom-date-${selectedDate}`,
+    date: selectedDate,
+    time: customTime,
+    title: customTitle,
+    location: "場所未設定",
+    partner: partnerName
+      ? { ...upcomingDatePlan.partner, name: partnerName }
+      : upcomingDatePlan.partner,
+  } : upcomingDatePlan);
   return <DatePlanContent key={datePlan.id} datePlan={datePlan} />;
 }
 

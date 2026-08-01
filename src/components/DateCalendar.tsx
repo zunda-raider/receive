@@ -12,7 +12,13 @@ const CUSTOM_EVENTS_KEY = "aime:custom-date-events:v1";
 
 type DisplayEvent = CalendarEvent & { isCustom: boolean };
 
-export default function DateCalendar({ selectedDate }: { selectedDate?: string }) {
+export default function DateCalendar({
+  selectedDate,
+  linkCustomEvents = false,
+}: {
+  selectedDate?: string;
+  linkCustomEvents?: boolean;
+}) {
   const selectedYear = selectedDate ? Number(selectedDate.slice(0, 4)) : 2026;
   const selectedMonth = selectedDate ? Number(selectedDate.slice(5, 7)) - 1 : 7;
   const [visibleMonth, setVisibleMonth] = useState(() => new Date(selectedYear, selectedMonth, 1));
@@ -115,6 +121,18 @@ export default function DateCalendar({ selectedDate }: { selectedDate?: string }
             <div key={`${day ?? "blank"}-${index}`} className="flex h-10 items-center justify-center">
               {event && !event.isCustom ? (
                 <Link href={`/date?date=${event.date}`} aria-label={`${event.title}の目標設定を開く`} className={`relative flex items-center justify-center rounded-full text-xs font-semibold transition-colors ${isSelected ? "h-9 w-9 bg-teal text-navy shadow-[0_0_18px_rgba(78,205,196,0.28)]" : "h-8 w-8 text-text-primary hover:bg-navy-light"}`}>
+                  {day}
+                  {!isSelected ? <span className="absolute -bottom-0.5 h-1 w-1 rounded-full bg-teal" /> : null}
+                </Link>
+              ) : event && linkCustomEvents ? (
+                <Link
+                  href={{
+                    pathname: "/date",
+                    query: { date: event.date, time: event.time, title: event.title },
+                  }}
+                  aria-label={`${event.title}の目標設定を開く`}
+                  className={`relative flex items-center justify-center rounded-full text-xs font-semibold transition-colors ${isSelected ? "h-9 w-9 bg-teal text-navy shadow-[0_0_18px_rgba(78,205,196,0.28)]" : "h-8 w-8 text-text-primary hover:bg-navy-light"}`}
+                >
                   {day}
                   {!isSelected ? <span className="absolute -bottom-0.5 h-1 w-1 rounded-full bg-teal" /> : null}
                 </Link>
