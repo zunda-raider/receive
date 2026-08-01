@@ -99,7 +99,7 @@ export default function ProfilePage() {
                     <Check size={16} />
                   </button>
                 ) : (
-                  <button onClick={() => startEdit(f.key, f.key === "height" ? String(user.height) : f.value)} className="text-text-secondary hover:text-text-primary">
+                  <button onClick={() => startEdit(f.key, f.key === "height" ? String(user.height) : f.value)} className="cursor-pointer text-text-secondary hover:text-text-primary">
                     <Edit3 size={14} />
                   </button>
                 )}
@@ -118,7 +118,7 @@ export default function ProfilePage() {
                   }
                   setEditHobbies(!editHobbies);
                 }}
-                className={editHobbies ? "text-teal" : "text-text-secondary hover:text-text-primary"}
+                className={editHobbies ? "text-teal" : "cursor-pointer text-text-secondary hover:text-text-primary"}
               >
                 {editHobbies ? <Check size={14} /> : <Edit3 size={14} />}
               </button>
@@ -163,7 +163,7 @@ export default function ProfilePage() {
                   <Check size={14} />
                 </button>
               ) : (
-                <button onClick={() => startEdit("bio", user.bio)} className="text-text-secondary hover:text-text-primary">
+                <button onClick={() => startEdit("bio", user.bio)} className="cursor-pointer text-text-secondary hover:text-text-primary">
                   <Edit3 size={14} />
                 </button>
               )}
