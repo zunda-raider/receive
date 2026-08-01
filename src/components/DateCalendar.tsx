@@ -112,9 +112,9 @@ export default function DateCalendar({ selectedDate }: { selectedDate?: string }
           const isSelected = date === selectedDate;
           const isToday = date === REFERENCE_DATE;
           return (
-            <div key={`${day ?? "blank"}-${index}`} className="flex h-9 items-center justify-center">
+            <div key={`${day ?? "blank"}-${index}`} className="flex h-10 items-center justify-center">
               {event && !event.isCustom ? (
-                <Link href={`/date?date=${event.date}`} aria-label={`${event.title}の目標設定を開く`} className={`relative flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-colors ${isSelected ? "bg-teal text-navy shadow-[0_0_18px_rgba(78,205,196,0.28)]" : "text-text-primary hover:bg-navy-light"}`}>
+                <Link href={`/date?date=${event.date}`} aria-label={`${event.title}の目標設定を開く`} className={`relative flex items-center justify-center overflow-hidden rounded-full text-xs font-semibold transition-colors ${isSelected ? "h-9 w-9 bg-teal text-navy shadow-[0_0_18px_rgba(78,205,196,0.28)]" : "h-8 w-8 text-text-primary hover:bg-navy-light"}`}>
                   {day}<span className="absolute -bottom-0.5 h-1 w-1 rounded-full bg-teal" />
                 </Link>
               ) : event ? (
@@ -122,7 +122,7 @@ export default function DateCalendar({ selectedDate }: { selectedDate?: string }
                   {day}<span className="absolute -bottom-0.5 h-1 w-1 rounded-full bg-teal" />
                 </button>
               ) : day ? (
-                <button type="button" onClick={() => openRegistration(date)} aria-label={`${date}にデートを登録`} className={`flex h-8 w-8 items-center justify-center rounded-full text-xs transition-colors hover:bg-navy-light ${isToday ? "border border-coral text-coral" : "text-text-primary"}`}>{day}</button>
+                <button type="button" onClick={() => openRegistration(date)} aria-label={`${date}にデートを登録`} className={`flex items-center justify-center rounded-full text-xs transition-colors hover:bg-navy-light ${isToday ? "h-9 w-9 border border-coral text-coral" : "h-8 w-8 text-text-primary"}`}>{day}</button>
               ) : null}
             </div>
           );
