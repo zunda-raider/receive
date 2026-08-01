@@ -11,6 +11,7 @@ export default function OnboardingProfilePage() {
   const router = useRouter();
 
   const [nickname, setNickname] = useState(user.nickname);
+  const [goal, setGoal] = useState(user.goal ?? "");
   const [age, setAge] = useState(String(user.age));
   const [location, setLocation] = useState(user.location);
   const [job, setJob] = useState(user.job);
@@ -30,6 +31,7 @@ export default function OnboardingProfilePage() {
   const handleNext = () => {
     updateUser({
       nickname,
+      goal,
       age: Number(age),
       location,
       job,
@@ -79,6 +81,22 @@ export default function OnboardingProfilePage() {
             onChange={(e) => setNickname(e.target.value)}
             className="w-full bg-navy-card border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-coral/50"
           />
+        </div>
+
+        {/* Goal */}
+        <div>
+          <label className="block text-xs text-text-secondary mb-1">目標</label>
+          <textarea
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
+            placeholder="例：10月末までに、自然体で話せる相手と3回デートする"
+            rows={2}
+            maxLength={100}
+            className="w-full bg-navy-card border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-secondary/60 focus:outline-none focus:border-coral/50 resize-none"
+          />
+          <p className="mt-1 text-[10px] text-text-secondary">
+            期限や実現したいことを、自由に書いてください
+          </p>
         </div>
 
         {/* Age + Location */}

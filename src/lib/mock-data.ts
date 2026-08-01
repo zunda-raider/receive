@@ -5,6 +5,7 @@
 // ---- 型定義 ----
 export interface UserProfile {
   nickname: string;
+  goal: string;
   age: number;
   location: string;
   job: string;
@@ -81,6 +82,7 @@ export interface CalendarEvent {
 // ---- データ ----
 export const currentUser: UserProfile = {
   nickname: "たいき",
+  goal: "10月末までに、自然体で話せる相手と3回デートする",
   age: 27,
   location: "東京都",
   job: "エンジニア",

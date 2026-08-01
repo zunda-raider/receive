@@ -4,7 +4,7 @@ import BottomTabBar from "@/components/BottomTabBar";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { calendarEvents, activityData, todayHint } from "@/lib/mock-data";
-import { Calendar, Lightbulb, TrendingUp } from "lucide-react";
+import { Calendar, Flag, Lightbulb, TrendingUp } from "lucide-react";
 
 function MiniCalendar() {
   const now = new Date(2026, 7, 1); // 2026年8月
@@ -108,6 +108,19 @@ export default function HomePage() {
           </h1>
           <p className="text-xs text-text-secondary mt-0.5">
             2026年8月1日（金）
+          </p>
+        </div>
+
+        {/* Goal */}
+        <div className="mb-5 rounded-[20px] border border-coral/20 bg-gradient-to-br from-coral/10 to-navy-card p-4">
+          <div className="mb-2 flex items-center gap-2">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-coral/15">
+              <Flag size={16} className="text-coral" />
+            </div>
+            <p className="text-xs font-medium text-coral">あなたの目標</p>
+          </div>
+          <p className="text-sm font-medium leading-relaxed text-text-primary">
+            {user.goal || "目標を設定して、理想の出会いに近づきましょう"}
           </p>
         </div>
 
