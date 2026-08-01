@@ -19,7 +19,7 @@ import type { PersonalityScores } from "@/lib/mock-data";
 
 export default function SelfAnalysisPage() {
   const { personalityScores } = useAuth();
-  const [messages, setMessages] = useState(initialMessages);
+  const [messages, setMessages] = useState<{ role: "ai" | "user"; text: string }[]>(initialMessages);
   const [input, setInput] = useState("");
   const [responseIdx, setResponseIdx] = useState(0);
   const [isTyping, setIsTyping] = useState(false);

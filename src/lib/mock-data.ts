@@ -260,9 +260,11 @@ export const selfAnalysisChallenges: string[] = [
 
 export const selfAnalysisSummary = "あなたは「じっくり関係を育てる堅実型」です。相手の気持ちを大切にしながらも、自分のペースを持つことでより良い関係を築けるでしょう。";
 
-export const chatMessages = [
-  { role: "ai" as const, text: "こんにちは！自己分析をはじめましょう。あなたの恋愛や人間関係について、いくつか質問させてくださいね。" },
-  { role: "ai" as const, text: "これまでで、いちばん自然に話せた相手はどんな人でしたか？" },
+export type ChatMessage = { role: "ai" | "user"; text: string };
+
+export const chatMessages: ChatMessage[] = [
+  { role: "ai", text: "こんにちは！自己分析をはじめましょう。あなたの恋愛や人間関係について、いくつか質問させてくださいね。" },
+  { role: "ai", text: "これまでで、いちばん自然に話せた相手はどんな人でしたか？" },
 ];
 
 export const chatResponses = [
