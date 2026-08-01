@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
@@ -10,6 +10,12 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const { login, isLoggedIn, isOnboarded } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (isLoggedIn && isOnboarded) {
+      router.replace("/home");
+    }
+  }, [isLoggedIn, isOnboarded, router]);
 
   const handleLogin = (asNewUser: boolean) => {
     login(asNewUser);
@@ -29,7 +35,6 @@ export default function LoginPage() {
 
   // If already logged in, redirect
   if (isLoggedIn && isOnboarded) {
-    router.push("/home");
     return null;
   }
 
