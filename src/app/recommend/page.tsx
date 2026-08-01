@@ -5,14 +5,30 @@ import BottomTabBar from "@/components/BottomTabBar";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import GeneratedAvatar from "@/components/GeneratedAvatar";
-import { recommendations } from "@/lib/mock-data";
-import { Heart, X, MapPin, Briefcase } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { personalityLabels, recommendations } from "@/lib/mock-data";
+import type { PersonalityScores } from "@/lib/mock-data";
+import { Heart, X, MapPin, Briefcase, Sparkles } from "lucide-react";
 
 type Filter = "all" | "score" | "new" | "hobby";
 
+const idealPartnerTraits: Record<keyof PersonalityScores, string> = {
+  extraversion: "会話やお出かけを一緒に楽しめる",
+  agreeableness: "気持ちを言葉で伝え合い、思いやりを返してくれる",
+  conscientiousness: "約束や日々の小さな積み重ねを大切にする",
+  emotionalStability: "穏やかに話し合えて、安心感をくれる",
+  openness: "新しい体験や価値観を一緒に楽しめる",
+  dominance: "お互いの希望を率直に話し合える",
+};
+
 export default function RecommendPage() {
+  const { personalityScores } = useAuth();
   const [filter, setFilter] = useState<Filter>("all");
   const [dismissed, setDismissed] = useState<Set<string>>(new Set());
+
+  const strongestTraits = (Object.keys(personalityScores) as (keyof PersonalityScores)[])
+    .sort((a, b) => personalityScores[b] - personalityScores[a])
+    .slice(0, 2);
 
   const filters: { key: Filter; label: string }[] = [
     { key: "all", label: "すべて" },
@@ -35,7 +51,23 @@ export default function RecommendPage() {
         animate={{ opacity: 1 }}
         className="flex-1 px-5 pb-24 pt-6"
       >
-        <h1 className="text-lg font-bold text-text-primary mb-4">相互レコメンド</h1>
+        <h1 className="text-lg font-bold text-text-primary mb-3">相互レコメンド</h1>
+
+        {/* Ideal partner summary */}
+        <div className="bg-teal/10 rounded-[20px] p-4 border border-teal/20 mb-4">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-7 h-7 rounded-full bg-teal/15 flex items-center justify-center shrink-0">
+              <Sparkles size={14} className="text-teal" />
+            </div>
+            <p className="text-sm font-semibold text-text-primary">あなたに合うのは、こんな人</p>
+          </div>
+          <p className="text-xs text-text-primary leading-relaxed">
+            {idealPartnerTraits[strongestTraits[0]]}、{idealPartnerTraits[strongestTraits[1]]}人が合いそうです。
+          </p>
+          <p className="text-[10px] text-teal mt-2">
+            あなたの{strongestTraits.map((trait) => personalityLabels[trait]).join("・")}の強みをもとにしています
+          </p>
+        </div>
 
         {/* Filters */}
         <div className="flex gap-2 mb-5 overflow-x-auto scrollbar-hide">
