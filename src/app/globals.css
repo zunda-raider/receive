@@ -117,6 +117,25 @@
   }
   body {
     @apply bg-navy text-text-primary font-sans;
+    cursor: default;
+    user-select: none;
+    caret-color: transparent;
+  }
+  :where(
+    input:not([type]),
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="number"],
+    textarea,
+    [contenteditable="true"]
+  ) {
+    cursor: text;
+    user-select: text;
+    caret-color: auto;
   }
   html {
     @apply font-sans;
