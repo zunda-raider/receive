@@ -85,13 +85,13 @@ export default function RecommendDetailPage({ params }: { params: Promise<{ id: 
               <path
                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 fill="none"
-                stroke="#1A2540"
+                stroke="#FCE9E6"
                 strokeWidth="3"
               />
               <path
                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 fill="none"
-                stroke="#FF7A59"
+                stroke="#B8143F"
                 strokeWidth="3"
                 strokeDasharray={`${rec.matchScore}, 100`}
                 strokeLinecap="round"
@@ -133,13 +133,13 @@ export default function RecommendDetailPage({ params }: { params: Promise<{ id: 
           <div className="w-full h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="65%">
-                <PolarGrid stroke="rgba(255,255,255,0.1)" />
-                <PolarAngleAxis dataKey="axis" tick={{ fill: "#8A94A6", fontSize: 10 }} />
+                <PolarGrid stroke="rgba(184,20,63,0.12)" />
+                <PolarAngleAxis dataKey="axis" tick={{ fill: "#7A5C66", fontSize: 10 }} />
                 <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                <Radar name="あなた" dataKey="あなた" stroke="#FF7A59" fill="#FF7A59" fillOpacity={0.2} strokeWidth={2} />
-                <Radar name={rec.name} dataKey={rec.name} stroke="#4ECDC4" fill="#4ECDC4" fillOpacity={0.2} strokeWidth={2} />
+                <Radar name="あなた" dataKey="あなた" stroke="#B8143F" fill="#B8143F" fillOpacity={0.2} strokeWidth={2} />
+                <Radar name={rec.name} dataKey={rec.name} stroke="#FF6F5E" fill="#FF6F5E" fillOpacity={0.2} strokeWidth={2} />
                 <Legend
-                  wrapperStyle={{ fontSize: 11, color: "#8A94A6" }}
+                  wrapperStyle={{ fontSize: 11, color: "#7A5C66" }}
                 />
               </RadarChart>
             </ResponsiveContainer>
@@ -147,7 +147,7 @@ export default function RecommendDetailPage({ params }: { params: Promise<{ id: 
         </div>
 
         {/* Action button */}
-        <button className="w-full bg-coral hover:bg-coral-hover text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+        <button className="btn-gradient w-full text-white font-semibold py-3.5  flex items-center justify-center gap-2">
           <Heart size={18} />
           気になる
         </button>

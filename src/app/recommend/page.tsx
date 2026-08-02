@@ -8,7 +8,7 @@ import GeneratedAvatar from "@/components/GeneratedAvatar";
 import { useAuth } from "@/contexts/AuthContext";
 import { personalityLabels, recommendations } from "@/lib/mock-data";
 import type { PersonalityScores } from "@/lib/mock-data";
-import { Heart, X, MapPin, Briefcase, Sparkles } from "lucide-react";
+import { Heart, X, MapPin, Briefcase } from "lucide-react";
 
 type Filter = "all" | "score" | "new" | "hobby";
 
@@ -49,22 +49,20 @@ export default function RecommendPage() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex-1 px-5 pb-24 pt-6"
+        className="flex-1 px-5 pb-24 pt-8"
       >
-        <h1 className="text-lg font-bold text-text-primary mb-3">相互レコメンド</h1>
+        <p className="font-label text-gold mb-2">Match</p>
+        <h1 className="font-display text-heading text-text-primary mb-5">相互レコメンド</h1>
 
         {/* Ideal partner summary */}
-        <div className="bg-teal/10 rounded-[20px] p-4 border border-teal/20 mb-4">
+        <div className="surface-card p-4 mb-5">
           <div className="flex items-center gap-2 mb-2">
-            <div className="w-7 h-7 rounded-full bg-teal/15 flex items-center justify-center shrink-0">
-              <Sparkles size={14} className="text-teal" />
-            </div>
-            <p className="text-sm font-semibold text-text-primary">あなたに合うのは、こんな人</p>
+            <p className="text-[11px] tracking-wide text-teal">あなたに合う人</p>
           </div>
-          <p className="text-xs text-text-primary leading-relaxed">
+          <p className="text-sm leading-relaxed text-text-primary">
             {idealPartnerTraits[strongestTraits[0]]}、{idealPartnerTraits[strongestTraits[1]]}人が合いそうです。
           </p>
-          <p className="text-[10px] text-teal mt-2">
+          <p className="text-[10px] text-text-secondary mt-2">
             あなたの{strongestTraits.map((trait) => personalityLabels[trait]).join("・")}の強みをもとにしています
           </p>
         </div>
@@ -75,10 +73,10 @@ export default function RecommendPage() {
             <button
               key={f.key}
               onClick={() => setFilter(f.key)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+              className={`px-3 py-1.5 text-xs font-medium whitespace-nowrap border transition-colors ${
                 filter === f.key
-                  ? "bg-coral text-white"
-                  : "bg-navy-card text-text-secondary border border-border-subtle hover:border-coral/30"
+                  ? "bg-coral text-white border-coral"
+                  : "bg-transparent text-text-secondary border-border-subtle hover:border-coral/40"
               }`}
             >
               {f.label}
@@ -99,7 +97,7 @@ export default function RecommendPage() {
                 transition={{ duration: 0.3 }}
               >
                 <Link href={`/recommend/${rec.id}`}>
-                  <div className="bg-navy-card rounded-[20px] p-4 border border-border-subtle">
+                  <div className="surface-card px-4 py-4">
                     <div className="flex items-start gap-3 mb-3">
                       <GeneratedAvatar name={rec.name} size={52} />
                       <div className="flex-1 min-w-0">
@@ -124,13 +122,13 @@ export default function RecommendPage() {
                           <path
                             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                             fill="none"
-                            stroke="#1A2540"
+                            stroke="#FCE9E6"
                             strokeWidth="3"
                           />
                           <path
                             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                             fill="none"
-                            stroke={rec.matchScore >= 80 ? "#FF7A59" : "#4ECDC4"}
+                            stroke={rec.matchScore >= 80 ? "#B8143F" : "#FF6F5E"}
                             strokeWidth="3"
                             strokeDasharray={`${rec.matchScore}, 100`}
                             strokeLinecap="round"
@@ -152,7 +150,7 @@ export default function RecommendPage() {
                     </div>
 
                     {/* Reason */}
-                    <p className="text-[11px] text-teal leading-relaxed">{rec.reason}</p>
+                    <p className="text-[11px] text-coral/90 leading-relaxed">{rec.reason}</p>
                   </div>
                 </Link>
 
@@ -165,7 +163,7 @@ export default function RecommendPage() {
                     <X size={14} />
                     スキップ
                   </button>
-                  <button className="flex-1 flex items-center justify-center gap-1 bg-coral hover:bg-coral-hover rounded-xl py-2 text-white text-xs transition-colors">
+                  <button className="btn-gradient flex-1 flex items-center justify-center gap-1 rounded-xl py-2 text-white text-xs">
                     <Heart size={14} />
                     気になる
                   </button>

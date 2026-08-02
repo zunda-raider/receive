@@ -5,7 +5,6 @@ import DateCalendar from "@/components/DateCalendar";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { activityData, todayHint } from "@/lib/mock-data";
-import { Flag, Lightbulb, TrendingUp } from "lucide-react";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 function ActivityChart() {
@@ -34,29 +33,30 @@ function ActivityChart() {
             dataKey="label"
             axisLine={false}
             tickLine={false}
-            tick={{ fill: "#8A94A6", fontSize: 10 }}
+            tick={{ fill: "#7A5C66", fontSize: 10 }}
             interval={0}
           />
           <YAxis hide domain={[0, max]} />
           <Tooltip
-            cursor={{ stroke: "rgba(78,205,196,0.2)" }}
+            cursor={{ stroke: "rgba(184,20,63,0.15)" }}
             contentStyle={{
-              background: "#182238",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderRadius: 10,
-              color: "#F7F8FA",
+              background: "#FFFFFF",
+              border: "1px solid rgba(232,213,172,0.8)",
+              borderRadius: 14,
+              color: "#2B1620",
               fontSize: 12,
+              boxShadow: "0 6px 24px rgba(184,20,63,0.10)",
             }}
             formatter={(value) => [`${value} pts`, "ポイント"]}
-            labelStyle={{ color: "#8A94A6" }}
+            labelStyle={{ color: "#7A5C66" }}
           />
           <Line
-            type="linear"
+            type="monotone"
             dataKey="points"
-            stroke="#4ECDC4"
-            strokeWidth={2.5}
-            dot={{ r: 3, fill: "#4ECDC4", strokeWidth: 0 }}
-            activeDot={{ r: 5, fill: "#FF7A59", strokeWidth: 0 }}
+            stroke="#B8143F"
+            strokeWidth={2.25}
+            dot={{ r: 3, fill: "#B8143F", strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: "#FF6F5E", strokeWidth: 0 }}
           />
         </LineChart>
       </ResponsiveContainer>
@@ -68,7 +68,7 @@ export default function HomePage() {
   const { user } = useAuth();
 
   const getGreeting = () => {
-    const h = 18; // 18:00
+    const h = 18;
     if (h < 12) return "おはようございます";
     if (h < 18) return "こんにちは";
     return "こんばんは";
@@ -79,53 +79,38 @@ export default function HomePage() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex-1 px-5 pb-24 pt-6"
+        className="flex-1 px-5 pb-24 pt-8"
       >
-        {/* Header */}
-        <div className="mb-5">
-          <h1 className="text-lg font-bold text-text-primary">
-            {getGreeting()}、{user.nickname}さん
+        <header className="mb-7">
+          <p className="font-label text-gold mb-2">AIme</p>
+          <h1 className="font-display text-heading text-text-primary">
+            {getGreeting()}、
+            <br />
+            {user.nickname}さん
           </h1>
-          <p className="text-xs text-text-secondary mt-0.5">
-            2026年8月2日（日）
-          </p>
-        </div>
+          <p className="text-xs text-text-secondary mt-2">2026年8月2日（日）</p>
+        </header>
 
-        {/* Goal */}
-        <div className="mb-5 rounded-[20px] border border-coral/20 bg-gradient-to-br from-coral/10 to-navy-card p-4">
-          <div className="mb-2 flex items-center gap-2">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-coral/15">
-              <Flag size={16} className="text-coral" />
-            </div>
-            <p className="text-xs font-medium text-coral">あなたの目標</p>
-          </div>
-          <p className="text-sm font-medium leading-relaxed text-text-primary">
+        <section className="surface-card px-5 py-5 mb-4">
+          <p className="font-label text-gold mb-2">Today&apos;s Goal</p>
+          <p className="font-display text-[17px] leading-relaxed text-text-primary">
             {user.goal || "目標を設定して、理想の出会いに近づきましょう"}
           </p>
+        </section>
+
+        <section className="surface-panel px-5 py-4 mb-4 bg-blush/60">
+          <p className="font-label text-gold mb-2">Note</p>
+          <p className="text-[15px] leading-[26px] text-text-primary">{todayHint}</p>
+        </section>
+
+        <div className="mb-4">
+          <DateCalendar />
         </div>
 
-        {/* Hint */}
-        <div className="mb-5 rounded-[20px] border border-border-subtle bg-navy-card p-4">
-          <div className="flex items-start gap-3">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-coral/10">
-              <Lightbulb size={16} className="text-coral" />
-            </div>
-            <p className="text-xs leading-relaxed text-text-secondary">{todayHint}</p>
-          </div>
-        </div>
-
-        {/* Calendar */}
-        <div className="mb-4"><DateCalendar /></div>
-
-        {/* Activity */}
-        <div className="bg-navy-card rounded-[20px] p-4 border border-border-subtle mb-4">
-          <div className="flex items-center gap-2 mb-3">
-            <TrendingUp size={16} className="text-teal" />
-            <h2 className="text-sm font-semibold text-text-primary">アクティビティ推移</h2>
-          </div>
+        <section className="surface-card px-5 py-5 mb-4">
+          <p className="font-label text-gold mb-3">Activity</p>
           <ActivityChart />
-        </div>
-
+        </section>
       </motion.div>
       <BottomTabBar />
     </AuthGuard>

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
-import { LogIn } from "lucide-react";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -29,106 +28,76 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!username.trim()) return;
-    // Default: new user
     handleLogin(true);
   };
 
-  // If already logged in, redirect
   if (isLoggedIn && isOnboarded) {
     return null;
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col overflow-hidden">
-      {/* Same aurora background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B1220] via-[#0D1A30] to-[#0B1220]" />
-        <div
-          className="aurora-blob absolute w-[400px] h-[400px] rounded-full opacity-15"
-          style={{
-            background: "radial-gradient(circle, #FF7A59 0%, transparent 70%)",
-            filter: "blur(80px)",
-            top: "5%",
-            right: "-20%",
-          }}
-        />
-        <div
-          className="aurora-blob-2 absolute w-[300px] h-[300px] rounded-full opacity-10"
-          style={{
-            background: "radial-gradient(circle, #4ECDC4 0%, transparent 70%)",
-            filter: "blur(80px)",
-            bottom: "10%",
-            left: "-10%",
-          }}
-        />
-      </div>
+    <div className="relative min-h-screen flex flex-col px-6 overflow-hidden">
+      <div
+        className="pointer-events-none absolute -top-20 right-[-10%] h-64 w-64 rounded-full opacity-80"
+        style={{ background: "radial-gradient(circle, #FCE9E6 0%, transparent 70%)" }}
+      />
 
-      {/* Content */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center px-6">
+      <div className="relative z-10 flex-1 flex flex-col justify-center py-12">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-navy-card rounded-[20px] p-6 border border-border-subtle"
+          className="surface-card px-6 py-8"
         >
-          <div className="text-center mb-6">
-            <span className="text-xs font-semibold tracking-widest text-coral">
-              AIme
-            </span>
-            <h1 className="text-xl font-bold text-text-primary mt-2">
-              ログイン
-            </h1>
-          </div>
+          <p className="font-label text-gold mb-2">Welcome</p>
+          <p className="font-display text-[2rem] text-text-primary mb-1">AIme</p>
+          <h1 className="font-display text-heading text-text-primary mb-2">ログイン</h1>
+          <p className="text-sm text-text-secondary mb-7 leading-[26px]">
+            続きから、静かに始めましょう
+          </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs text-text-secondary mb-1.5">
-                ユーザー名
-              </label>
+              <label className="font-label text-gold mb-2 block">Username</label>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="任意の文字列を入力"
-                className="w-full bg-navy-light border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-coral/50 transition-colors"
+                className="input-invite w-full px-4 py-3 text-[15px] text-text-primary placeholder-text-secondary/70 focus:outline-none focus:border-coral/40"
               />
             </div>
             <div>
-              <label className="block text-xs text-text-secondary mb-1.5">
-                パスワード
-              </label>
+              <label className="font-label text-gold mb-2 block">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="任意の文字列を入力"
-                className="w-full bg-navy-light border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-coral/50 transition-colors"
+                className="input-invite w-full px-4 py-3 text-[15px] text-text-primary placeholder-text-secondary/70 focus:outline-none focus:border-coral/40"
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-coral hover:bg-coral-hover text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
+              className="btn-gradient w-full font-semibold text-sm py-3.5 mt-2"
             >
-              <LogIn size={18} />
               ログイン
             </button>
           </form>
 
-          {/* Demo toggle */}
-          <div className="mt-6 pt-4 border-t border-border-subtle">
-            <p className="text-xs text-text-secondary text-center mb-3">
-              デモ用クイックログイン
-            </p>
-            <div className="flex gap-2">
+          <div className="mt-8 pt-6">
+            <div className="rule mb-5" />
+            <p className="font-label text-text-secondary mb-3">Demo</p>
+            <div className="flex flex-col gap-2">
               <button
                 onClick={() => handleLogin(true)}
-                className="flex-1 bg-navy-light hover:bg-navy-light/80 text-text-primary text-xs font-medium py-2.5 rounded-xl border border-border-subtle transition-colors"
+                className="w-full rounded-[14px] bg-blush text-text-primary text-xs font-medium py-3 hover:bg-blush/80 transition-colors"
               >
                 初回ユーザーとして試す
               </button>
               <button
                 onClick={() => handleLogin(false)}
-                className="flex-1 bg-navy-light hover:bg-navy-light/80 text-text-primary text-xs font-medium py-2.5 rounded-xl border border-border-subtle transition-colors"
+                className="w-full rounded-[14px] bg-blush text-text-primary text-xs font-medium py-3 hover:bg-blush/80 transition-colors"
               >
                 既存ユーザーとして試す
               </button>

@@ -99,7 +99,7 @@ export default function DateCalendar({ selectedDate }: { selectedDate?: string }
   };
 
   return (
-    <section className="rounded-[22px] border border-border-subtle bg-navy-card p-4">
+    <section className="surface-card p-5">
       <div className="mb-3 flex items-center justify-between">
         <button type="button" onClick={() => setVisibleMonth(new Date(year, month - 1, 1))} disabled={monthIndex <= MIN_MONTH_INDEX} aria-label="前の月を表示" className="flex h-8 w-8 items-center justify-center rounded-lg text-text-secondary hover:bg-navy-light disabled:opacity-20"><ChevronLeft size={17} /></button>
         <div className="flex items-center gap-2"><CalendarDays size={17} className="text-teal" /><h2 className="text-sm font-semibold text-text-primary">{year}年{month + 1}月</h2></div>
@@ -112,7 +112,7 @@ export default function DateCalendar({ selectedDate }: { selectedDate?: string }
           const selected = date === selectedDate;
           const today = date === REFERENCE_DATE;
           const stateColor = event?.reviewed ? "bg-text-secondary" : event && event.date < REFERENCE_DATE ? "bg-coral" : "bg-teal";
-          const cellClass = `relative flex items-center justify-center rounded-full text-xs transition-colors ${selected ? "h-9 w-9 bg-teal font-semibold text-navy shadow-[0_0_18px_rgba(78,205,196,0.28)]" : `h-8 w-8 hover:bg-navy-light ${inCurrentMonth ? "text-text-primary" : event ? "font-semibold text-text-primary" : "text-text-secondary/40"} ${today ? "ring-1 ring-coral" : ""}`}`;
+          const cellClass = `relative flex items-center justify-center rounded-full text-xs transition-colors ${selected ? "h-9 w-9 bg-coral font-semibold text-white" : `h-8 w-8 hover:bg-navy-light ${inCurrentMonth ? "text-text-primary" : event ? "font-semibold text-text-primary" : "text-text-secondary/40"} ${today ? "ring-1 ring-coral" : ""}`}`;
           return <div key={date} className="flex h-10 items-center justify-center">
             {event ? <Link href={getDateHref(event, event.dateId)} aria-label={`${event.title}を開く`} className={cellClass}>{day}{!selected ? <span className={`absolute -bottom-0.5 h-1.5 w-1.5 rounded-full ${stateColor}`} /> : null}</Link>
               : <button type="button" onClick={() => openRegistration(date)} aria-label={`${date}にデートを登録`} className={cellClass}>{day}</button>}
@@ -130,7 +130,7 @@ export default function DateCalendar({ selectedDate }: { selectedDate?: string }
         {visibleDates.length === 0 ? <p className="py-2 text-center text-[10px] text-text-secondary">対象の予定はありません</p> : null}
         {visibleDates.map((event) => {
           const past = event.date < REFERENCE_DATE;
-          return <Link key={event.dateId} href={getDateHref(event, event.dateId)} className={`flex items-center gap-3 rounded-xl px-3 py-2 transition-colors hover:bg-white/10 ${past ? "bg-coral/10" : "bg-navy-light"}`}>
+          return <Link key={event.dateId} href={getDateHref(event, event.dateId)} className={`flex items-center gap-3 rounded-xl px-3 py-2 transition-colors hover:bg-coral/5 ${past ? "bg-coral/10" : "bg-navy-light"}`}>
             <span className={`h-8 w-1 rounded-full ${past ? "bg-coral" : "bg-teal"}`} />
             <div className="min-w-0 flex-1"><p className="text-[10px] font-medium text-text-primary">{Number(event.date.slice(5, 7))}/{Number(event.date.slice(-2))} {event.time}</p><p className="truncate text-[10px] text-text-secondary">{event.title}</p></div>
             <span className={`text-[9px] font-semibold ${past ? "text-coral" : "text-teal"}`}>{past ? "振り返る" : "予定"}</span>

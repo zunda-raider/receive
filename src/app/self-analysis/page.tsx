@@ -166,7 +166,7 @@ export default function SelfAnalysisPage() {
               </div>
               <div className="h-1.5 bg-navy-light rounded-full overflow-hidden mb-1.5">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-teal to-coral"
+                  className="h-full bg-coral"
                   style={{ width: `${trend.value}%` }}
                 />
               </div>

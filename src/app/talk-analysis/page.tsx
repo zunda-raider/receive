@@ -76,7 +76,7 @@ export default function TalkAnalysisPage() {
               </button>
               <button
                 onClick={startAnalysis}
-                className="flex-1 bg-coral hover:bg-coral-hover text-white font-medium py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm shadow-lg shadow-coral/20"
+                className="btn-gradient flex-1 text-white font-medium py-3.5  flex items-center justify-center gap-2 text-sm"
               >
                 <Camera size={18} />
                 サンプルで見る
@@ -125,7 +125,7 @@ export default function TalkAnalysisPage() {
                   <path
                     d="M50 10 a 40 40 0 0 1 0 80 a 40 40 0 0 1 0 -80"
                     fill="none"
-                    stroke="#1A2540"
+                    stroke="#FCE9E6"
                     strokeWidth="8"
                     strokeLinecap="round"
                   />
@@ -139,8 +139,8 @@ export default function TalkAnalysisPage() {
                   />
                   <defs>
                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#4ECDC4" />
-                      <stop offset="100%" stopColor="#FF7A59" />
+                      <stop offset="0%" stopColor="#FF6F5E" />
+                      <stop offset="100%" stopColor="#B8143F" />
                     </linearGradient>
                   </defs>
                 </svg>

@@ -96,10 +96,10 @@ export default function OnboardingPersonalityPage() {
           <div className="w-full h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
-                <PolarGrid stroke="rgba(255,255,255,0.1)" />
+                <PolarGrid stroke="rgba(184,20,63,0.12)" />
                 <PolarAngleAxis
                   dataKey="axis"
-                  tick={{ fill: "#8A94A6", fontSize: 11 }}
+                  tick={{ fill: "#7A5C66", fontSize: 11 }}
                 />
                 <PolarRadiusAxis
                   angle={30}
@@ -110,8 +110,8 @@ export default function OnboardingPersonalityPage() {
                 <Radar
                   name="あなた"
                   dataKey="value"
-                  stroke="#FF7A59"
-                  fill="#FF7A59"
+                  stroke="#B8143F"
+                  fill="#B8143F"
                   fillOpacity={0.25}
                   strokeWidth={2}
                 />
@@ -130,7 +130,7 @@ export default function OnboardingPersonalityPage() {
 
         <button
           onClick={handleComplete}
-          className="w-full bg-coral hover:bg-coral-hover text-white font-semibold py-3 rounded-xl transition-colors"
+          className="btn-gradient w-full text-white font-semibold py-3.5 "
         >
           ホームへ
         </button>

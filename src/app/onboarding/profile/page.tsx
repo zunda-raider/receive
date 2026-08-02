@@ -189,7 +189,7 @@ export default function OnboardingProfilePage() {
 
       <button
         onClick={handleNext}
-        className="mt-6 w-full bg-coral hover:bg-coral-hover text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
+        className="btn-gradient mt-6 w-full text-white font-semibold py-3.5  flex items-center justify-center gap-2"
       >
         次へ
         <ArrowRight size={18} />

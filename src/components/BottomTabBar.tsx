@@ -19,12 +19,11 @@ export default function BottomTabBar() {
     <nav className="fixed bottom-0 left-0 right-0 z-50">
       <div className="mx-auto max-w-[480px]">
         <div
-          className="flex items-center justify-around py-2 px-1"
+          className="flex items-center justify-around px-1 py-2.5 border-t border-gold-soft/50"
           style={{
-            background: "rgba(20, 28, 46, 0.85)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            borderTop: "1px solid rgba(255,255,255,0.06)",
+            background: "rgba(255, 255, 255, 0.72)",
+            backdropFilter: "blur(18px)",
+            WebkitBackdropFilter: "blur(18px)",
           }}
         >
           {tabs.map((tab) => {
@@ -33,13 +32,11 @@ export default function BottomTabBar() {
               <Link
                 key={tab.href}
                 href={tab.href}
-                className={`min-w-0 flex-1 flex flex-col items-center gap-0.5 px-0.5 py-1 rounded-xl transition-colors ${
-                  isActive
-                    ? "text-coral"
-                    : "text-text-secondary hover:text-text-primary"
+                className={`min-w-0 flex-1 flex flex-col items-center gap-0.5 px-0.5 py-1 transition-colors ${
+                  isActive ? "text-coral" : "text-text-secondary hover:text-text-primary"
                 }`}
               >
-                <tab.icon size={19} strokeWidth={isActive ? 2.5 : 1.8} />
+                <tab.icon size={18} strokeWidth={isActive ? 2.3 : 1.7} />
                 <span className="whitespace-nowrap text-[9px] font-medium">{tab.label}</span>
               </Link>
             );

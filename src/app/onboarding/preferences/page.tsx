@@ -194,7 +194,7 @@ export default function OnboardingPreferencesPage() {
                 onClick={() => toggleHobby(h)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                   selectedHobbies.includes(h)
-                    ? "bg-teal text-navy"
+                    ? "bg-teal text-white"
                     : "bg-navy-light text-text-secondary border border-border-subtle hover:border-teal/30"
                 }`}
               >
@@ -233,7 +233,7 @@ export default function OnboardingPreferencesPage() {
 
       <button
         onClick={() => router.push("/onboarding/personality")}
-        className="mt-6 w-full bg-coral hover:bg-coral-hover text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
+        className="btn-gradient mt-6 w-full text-white font-semibold py-3.5  flex items-center justify-center gap-2"
       >
         次へ
         <ArrowRight size={18} />
