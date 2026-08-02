@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
@@ -10,6 +10,12 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const { login, isLoggedIn, isOnboarded } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (isLoggedIn && isOnboarded) {
+      router.replace("/home");
+    }
+  }, [isLoggedIn, isOnboarded, router]);
 
   const handleLogin = (asNewUser: boolean) => {
     login(asNewUser);
@@ -29,7 +35,6 @@ export default function LoginPage() {
 
   // If already logged in, redirect
   if (isLoggedIn && isOnboarded) {
-    router.push("/home");
     return null;
   }
 
@@ -67,8 +72,8 @@ export default function LoginPage() {
           className="bg-navy-card rounded-[20px] p-6 border border-border-subtle"
         >
           <div className="text-center mb-6">
-            <span className="text-xs font-semibold tracking-widest text-coral uppercase">
-              MatchCoach
+            <span className="text-xs font-semibold tracking-widest text-coral">
+              AIme
             </span>
             <h1 className="text-xl font-bold text-text-primary mt-2">
               ログイン

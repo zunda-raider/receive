@@ -1,12 +1,13 @@
 "use client";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Home, Users, MessageSquareText, Brain, User } from "lucide-react";
+import { Home, Users, MessageSquareText, HeartHandshake, Brain, User } from "lucide-react";
 
 const tabs = [
   { href: "/home", icon: Home, label: "ホーム" },
   { href: "/recommend", icon: Users, label: "レコメンド" },
   { href: "/talk-analysis", icon: MessageSquareText, label: "トーク" },
+  { href: "/date", icon: HeartHandshake, label: "デート" },
   { href: "/self-analysis", icon: Brain, label: "自己分析" },
   { href: "/profile", icon: User, label: "プロフィール" },
 ];
@@ -32,14 +33,14 @@ export default function BottomTabBar() {
               <Link
                 key={tab.href}
                 href={tab.href}
-                className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl transition-colors ${
+                className={`min-w-0 flex-1 flex flex-col items-center gap-0.5 px-0.5 py-1 rounded-xl transition-colors ${
                   isActive
                     ? "text-coral"
                     : "text-text-secondary hover:text-text-primary"
                 }`}
               >
-                <tab.icon size={20} strokeWidth={isActive ? 2.5 : 1.8} />
-                <span className="text-[10px] font-medium">{tab.label}</span>
+                <tab.icon size={19} strokeWidth={isActive ? 2.5 : 1.8} />
+                <span className="whitespace-nowrap text-[9px] font-medium">{tab.label}</span>
               </Link>
             );
           })}

@@ -5,6 +5,7 @@
 // ---- 型定義 ----
 export interface UserProfile {
   nickname: string;
+  goal: string;
   age: number;
   location: string;
   job: string;
@@ -73,14 +74,51 @@ export interface TalkAnalysisResult {
 }
 
 export interface CalendarEvent {
+  id?: string;
   date: string;
   title: string;
   time: string;
+  type?: "date" | "call";
+}
+
+export interface DatePlan {
+  id: string;
+  date: string;
+  time: string;
+  title: string;
+  location: string;
+  partner: {
+    name: string;
+    age: number;
+    location: string;
+    job: string;
+    hobbies: string[];
+    bio: string;
+    compatibility: string;
+    commonPoints: string[];
+    conversationTips: string[];
+  };
+  purposeOptions: string[];
+  questionOptions: string[];
+  actionOptions: string[];
+  initialPurpose: string;
+  initialQuestions: string[];
+  initialActions: string[];
+  fashionCaption: string;
+}
+
+export interface PastDate {
+  id: string;
+  date: string;
+  partnerName: string;
+  title: string;
+  reviewCompleted: boolean;
 }
 
 // ---- データ ----
 export const currentUser: UserProfile = {
   nickname: "たいき",
+  goal: "10月末までに、自然体で話せる相手と3回デートする",
   age: 27,
   location: "東京都",
   job: "エンジニア",
@@ -296,20 +334,108 @@ export const talkAnalysisResult: TalkAnalysisResult = {
 };
 
 export const calendarEvents: CalendarEvent[] = [
-  { date: "2026-08-05", title: "Aさんと初回デート", time: "20:00" },
-  { date: "2026-08-09", title: "Bさんとカフェ", time: "14:00" },
-  { date: "2026-08-12", title: "Cさんとオンライン通話", time: "21:00" },
-  { date: "2026-08-15", title: "Aさんと2回目デート", time: "18:00" },
+  { id: "date-2026-08-05-misaki", date: "2026-08-05", title: "美咲さんと初回デート", time: "20:00", type: "date" },
+  { id: "date-2026-08-09-yuka", date: "2026-08-09", title: "由佳さんとカフェ", time: "14:00", type: "date" },
+  { date: "2026-08-12", title: "奈緒さんとオンライン通話", time: "21:00", type: "call" },
+  { id: "date-2026-08-15-misaki", date: "2026-08-15", title: "美咲さんと2回目デート", time: "18:00", type: "date" },
+  { id: "date-2026-07-27-ayaka", date: "2026-07-27", title: "彩花さんとのカフェ", time: "15:00", type: "date" },
 ];
 
+export const upcomingDatePlan: DatePlan = {
+  id: "date-2026-08-05-misaki",
+  date: "2026-08-05",
+  time: "20:00",
+  title: "美咲さんと初回デート",
+  location: "恵比寿のイタリアン",
+  partner: {
+    name: "美咲",
+    age: 26,
+    location: "東京都",
+    job: "Webデザイナー",
+    hobbies: ["カフェ巡り", "映画鑑賞", "美術館"],
+    bio: "デザインの仕事をしながら、休日は気になるカフェや展示を巡っています。落ち着いて話せる時間が好きです。",
+    compatibility: "穏やかな会話を好む点と、カフェ・映画という共通の趣味が好相性。お互いに相手の話を丁寧に聞くタイプなので、自然体で距離を縮められそうです。",
+    commonPoints: ["カフェ巡り", "映画鑑賞", "じっくり関係を築きたい"],
+    conversationTips: ["最近行った展示やカフェを聞く", "映画は作品名より感想を深掘りする", "自分のおすすめも一つ伝える"],
+  },
+  purposeOptions: ["まずは自然に楽しく話す", "次のデートにつなげる", "恋愛観や価値観を知る", "相性を落ち着いて見極める"],
+  questionOptions: ["休日の過ごし方", "連絡頻度の好み", "食事やお店の好み", "将来の働き方", "恋愛で大切にしていること"],
+  actionOptions: ["自分から質問を3つする", "相手の話を最後まで聞く", "自分の希望も一度伝える", "次につながる話題を作る", "帰宅後にお礼の連絡をする"],
+  initialPurpose: "まずは自然に楽しく話す",
+  initialQuestions: ["休日の過ごし方", "食事やお店の好み"],
+  initialActions: ["相手の話を最後まで聞く", "自分の希望も一度伝える"],
+  fashionCaption: "アイボリーのニットポロとネイビーのパンツで、清潔感と話しかけやすさを両立。ブラウンのローファーと腕時計を加え、初回のディナーデートに合う少しだけ上品な印象に。",
+};
+
+export const datePlans: DatePlan[] = [
+  {
+    ...upcomingDatePlan,
+    id: "date-2026-07-27-ayaka",
+    date: "2026-07-27",
+    time: "15:00",
+    title: "彩花さんとのカフェ",
+    location: "中目黒のカフェ",
+    partner: {
+      name: "彩花", age: 27, location: "東京都", job: "編集者",
+      hobbies: ["読書", "喫茶店", "写真"],
+      bio: "出版社で編集の仕事をしています。静かな喫茶店と写真を撮りながら歩く休日が好きです。",
+      compatibility: "落ち着いた場所を好み、相手の話を丁寧に聞く点が共通しています。好きな本やお店の話から自然に価値観を知れそうです。",
+      commonPoints: ["落ち着いたカフェが好き", "じっくり話したい", "写真や映画に興味がある"],
+      conversationTips: ["最近読んだ本を聞く", "好きな街の雰囲気を聞く", "自分の休日の過ごし方も伝える"],
+    },
+    initialPurpose: "相性を落ち着いて見極める",
+    initialQuestions: ["休日の過ごし方", "連絡頻度の好み"],
+    initialActions: ["自分から質問を3つする", "相手の話を最後まで聞く"],
+  },
+  upcomingDatePlan,
+  {
+    ...upcomingDatePlan,
+    id: "date-2026-08-09-yuka",
+    date: "2026-08-09",
+    time: "14:00",
+    title: "由佳さんとカフェ",
+    location: "表参道のカフェ",
+    partner: {
+      name: "由佳", age: 25, location: "神奈川県", job: "広報",
+      hobbies: ["旅行", "スイーツ", "ヨガ"],
+      bio: "広報の仕事をしています。休日は新しいお店を探したり、ヨガでリフレッシュしています。",
+      compatibility: "新しい場所を楽しめる開放性と、穏やかなコミュニケーションのテンポが近い組み合わせです。",
+      commonPoints: ["新しいお店が好き", "食べ歩き", "穏やかな会話"],
+      conversationTips: ["最近の旅行先を聞く", "おすすめスイーツを聞く", "次に行きたい場所を共有する"],
+    },
+    initialPurpose: "恋愛観や価値観を知る",
+    initialQuestions: ["休日の過ごし方", "恋愛で大切にしていること"],
+    initialActions: ["自分の希望も一度伝える", "次につながる話題を作る"],
+  },
+  {
+    ...upcomingDatePlan,
+    id: "date-2026-08-15-misaki",
+    date: "2026-08-15",
+    time: "18:00",
+    title: "美咲さんと2回目デート",
+    location: "丸の内のビストロ",
+    initialPurpose: "次のデートにつなげる",
+    initialQuestions: ["将来の働き方", "恋愛で大切にしていること"],
+    initialActions: ["自分の希望も一度伝える", "帰宅後にお礼の連絡をする"],
+  },
+];
+
+export const latestPastDate: PastDate = {
+  id: "date-2026-07-27-ayaka",
+  date: "2026-07-27",
+  partnerName: "彩花",
+  title: "彩花さんとのカフェ",
+  reviewCompleted: false,
+};
+
 export const activityData = [
-  { day: "月", count: 8 },
-  { day: "火", count: 12 },
-  { day: "水", count: 5 },
-  { day: "木", count: 15 },
-  { day: "金", count: 10 },
-  { day: "土", count: 18 },
-  { day: "日", count: 7 },
+  { date: "2026-07-27", points: 19 },
+  { date: "2026-07-28", points: 4 },
+  { date: "2026-07-29", points: 7 },
+  { date: "2026-07-30", points: 2 },
+  { date: "2026-07-31", points: 6 },
+  { date: "2026-08-01", points: 3 },
+  { date: "2026-08-02", points: 5 },
 ];
 
 export const todayHint = "今日のヒント：じっくり型のあなたは、焦らず相手のペースも尊重しましょう。返信を待つ時間も信頼構築の一部です。";

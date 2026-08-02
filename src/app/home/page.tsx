@@ -1,91 +1,71 @@
 "use client";
 import AuthGuard from "@/components/AuthGuard";
 import BottomTabBar from "@/components/BottomTabBar";
+import DateCalendar from "@/components/DateCalendar";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
-import { calendarEvents, activityData, todayHint } from "@/lib/mock-data";
-import { Calendar, Lightbulb, TrendingUp } from "lucide-react";
-
-function MiniCalendar() {
-  const now = new Date(2026, 7, 1); // 2026年8月
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const today = 1;
-
-  const eventDates = calendarEvents.map((e) => {
-    const d = new Date(e.date);
-    return d.getDate();
-  });
-
-  const days = [];
-  for (let i = 0; i < firstDay; i++) days.push(null);
-  for (let i = 1; i <= daysInMonth; i++) days.push(i);
-
-  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
-
-  return (
-    <div>
-      <div className="grid grid-cols-7 gap-0.5 mb-1">
-        {weekdays.map((w) => (
-          <div key={w} className="text-center text-[10px] text-text-secondary py-1">
-            {w}
-          </div>
-        ))}
-      </div>
-      <div className="grid grid-cols-7 gap-0.5">
-        {days.map((day, i) => (
-          <div key={i} className="relative flex items-center justify-center h-8">
-            {day && (
-              <>
-                <span
-                  className={`text-xs ${
-                    day === today
-                      ? "bg-coral text-white w-6 h-6 rounded-full flex items-center justify-center font-bold"
-                      : "text-text-primary"
-                  }`}
-                >
-                  {day}
-                </span>
-                {eventDates.includes(day) && day !== today && (
-                  <div className="absolute bottom-0.5 w-1 h-1 rounded-full bg-teal" />
-                )}
-              </>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+import { activityData, todayHint } from "@/lib/mock-data";
+import { Flag, Lightbulb, TrendingUp } from "lucide-react";
+import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 function ActivityChart() {
-  const max = Math.max(...activityData.map((d) => d.count));
+  const chronologicalActivity = [...activityData].sort((a, b) =>
+    a.date.localeCompare(b.date),
+  );
+  const max = Math.max(...chronologicalActivity.map((activity) => activity.points));
+  const chartData = chronologicalActivity.map((activity) => {
+    const [, month, day] = activity.date.split("-");
+
+    return {
+      ...activity,
+      label: `${Number(month)}/${Number(day)}`,
+    };
+  });
+
   return (
-    <div className="flex items-end gap-2 h-20">
-      {activityData.map((d) => (
-        <div key={d.day} className="flex-1 flex flex-col items-center gap-1">
-          <div
-            className="w-full rounded-t-md bg-teal/70"
-            style={{ height: `${(d.count / max) * 100}%`, minHeight: 4 }}
+    <div
+      className="h-24 w-full"
+      role="img"
+      aria-label="7月27日から8月2日までのアクティビティポイント折れ線グラフ"
+    >
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={chartData} margin={{ top: 6, right: 8, bottom: 0, left: 8 }}>
+          <XAxis
+            dataKey="label"
+            axisLine={false}
+            tickLine={false}
+            tick={{ fill: "#8A94A6", fontSize: 10 }}
+            interval={0}
           />
-          <span className="text-[10px] text-text-secondary">{d.day}</span>
-        </div>
-      ))}
+          <YAxis hide domain={[0, max]} />
+          <Tooltip
+            cursor={{ stroke: "rgba(78,205,196,0.2)" }}
+            contentStyle={{
+              background: "#182238",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 10,
+              color: "#F7F8FA",
+              fontSize: 12,
+            }}
+            formatter={(value) => [`${value} pts`, "ポイント"]}
+            labelStyle={{ color: "#8A94A6" }}
+          />
+          <Line
+            type="linear"
+            dataKey="points"
+            stroke="#4ECDC4"
+            strokeWidth={2.5}
+            dot={{ r: 3, fill: "#4ECDC4", strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: "#FF7A59", strokeWidth: 0 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 }
 
 export default function HomePage() {
   const { user } = useAuth();
-
-  const upcomingEvents = calendarEvents.slice(0, 2);
-  const summaryCards = [
-    { label: "今月のマッチ", value: "12", color: "text-coral" },
-    { label: "やり取り中", value: "4", color: "text-teal" },
-    { label: "返信待ち", value: "2", color: "text-text-secondary" },
-  ];
 
   const getGreeting = () => {
     const h = 18; // 18:00
@@ -107,51 +87,35 @@ export default function HomePage() {
             {getGreeting()}、{user.nickname}さん
           </h1>
           <p className="text-xs text-text-secondary mt-0.5">
-            2026年8月1日（金）
+            2026年8月2日（日）
           </p>
         </div>
 
-        {/* Summary cards */}
-        <div className="grid grid-cols-3 gap-2.5 mb-5">
-          {summaryCards.map((card) => (
-            <div
-              key={card.label}
-              className="bg-navy-card rounded-[16px] p-3 border border-border-subtle text-center"
-            >
-              <p className={`text-2xl font-bold ${card.color}`}>{card.value}</p>
-              <p className="text-[10px] text-text-secondary mt-0.5">{card.label}</p>
+        {/* Goal */}
+        <div className="mb-5 rounded-[20px] border border-coral/20 bg-gradient-to-br from-coral/10 to-navy-card p-4">
+          <div className="mb-2 flex items-center gap-2">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-coral/15">
+              <Flag size={16} className="text-coral" />
             </div>
-          ))}
+            <p className="text-xs font-medium text-coral">あなたの目標</p>
+          </div>
+          <p className="text-sm font-medium leading-relaxed text-text-primary">
+            {user.goal || "目標を設定して、理想の出会いに近づきましょう"}
+          </p>
+        </div>
+
+        {/* Hint */}
+        <div className="mb-5 rounded-[20px] border border-border-subtle bg-navy-card p-4">
+          <div className="flex items-start gap-3">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-coral/10">
+              <Lightbulb size={16} className="text-coral" />
+            </div>
+            <p className="text-xs leading-relaxed text-text-secondary">{todayHint}</p>
+          </div>
         </div>
 
         {/* Calendar */}
-        <div className="bg-navy-card rounded-[20px] p-4 border border-border-subtle mb-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Calendar size={16} className="text-teal" />
-            <h2 className="text-sm font-semibold text-text-primary">8月のカレンダー</h2>
-          </div>
-          <MiniCalendar />
-          <div className="mt-3 space-y-2">
-            {upcomingEvents.map((evt, i) => {
-              const d = new Date(evt.date);
-              const weekday = ["日", "月", "火", "水", "木", "金", "土"][d.getDay()];
-              return (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 bg-navy-light rounded-xl px-3 py-2"
-                >
-                  <div className="w-1 h-8 rounded-full bg-teal" />
-                  <div>
-                    <p className="text-xs text-text-primary font-medium">
-                      {d.getMonth() + 1}/{d.getDate()}({weekday}) {evt.time}
-                    </p>
-                    <p className="text-[11px] text-text-secondary">{evt.title}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <div className="mb-4"><DateCalendar /></div>
 
         {/* Activity */}
         <div className="bg-navy-card rounded-[20px] p-4 border border-border-subtle mb-4">
@@ -162,15 +126,6 @@ export default function HomePage() {
           <ActivityChart />
         </div>
 
-        {/* Hint */}
-        <div className="bg-navy-card rounded-[20px] p-4 border border-border-subtle">
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-xl bg-coral/10 flex items-center justify-center shrink-0">
-              <Lightbulb size={16} className="text-coral" />
-            </div>
-            <p className="text-xs text-text-secondary leading-relaxed">{todayHint}</p>
-          </div>
-        </div>
       </motion.div>
       <BottomTabBar />
     </AuthGuard>

@@ -1,10 +1,11 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import AuthGuard from "@/components/AuthGuard";
 import BottomTabBar from "@/components/BottomTabBar";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
-import { ShieldAlert, Send, Bot, User } from "lucide-react";
+import { ShieldAlert, Send, Bot, User, RotateCcw } from "lucide-react";
 import {
   selfAnalysisTrends,
   selfAnalysisPatterns,
@@ -72,6 +73,18 @@ export default function SelfAnalysisPage() {
           <p className="text-[11px] text-text-secondary">
             性格診断の強み: {topAxes.join("・")}
           </p>
+          <div className="mt-4 border-t border-border-subtle pt-4">
+            <Link
+              href="/onboarding/personality"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-coral/40 bg-coral/10 py-2.5 text-xs font-semibold text-coral transition-colors hover:border-coral hover:bg-coral/15"
+            >
+              <RotateCcw size={15} />
+              性格診断を受けなおす
+            </Link>
+            <p className="mt-2 text-center text-[10px] text-text-secondary">
+              診断完了後、現在の性格診断結果が更新されます
+            </p>
+          </div>
         </div>
 
         {/* Chat UI */}

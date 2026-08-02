@@ -72,7 +72,7 @@ export default function TalkAnalysisPage() {
                 className="flex-1 bg-navy-light hover:bg-navy-light/80 text-text-primary font-medium py-3.5 rounded-xl border border-border-subtle transition-colors flex items-center justify-center gap-2 text-sm"
               >
                 <ImageIcon size={18} />
-                ライブラリ
+                ライブラリから選択
               </button>
               <button
                 onClick={startAnalysis}

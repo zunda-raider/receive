@@ -5,11 +5,11 @@ import BottomTabBar from "@/components/BottomTabBar";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import GeneratedAvatar from "@/components/GeneratedAvatar";
-import { Edit3, Check, Globe } from "lucide-react";
+import { Edit3, Check, Globe, LogOut } from "lucide-react";
 import { hobbyOptions } from "@/lib/mock-data";
 
 export default function ProfilePage() {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, logout } = useAuth();
   const [editingField, setEditingField] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<Record<string, string>>({});
 
@@ -99,7 +99,7 @@ export default function ProfilePage() {
                     <Check size={16} />
                   </button>
                 ) : (
-                  <button onClick={() => startEdit(f.key, f.key === "height" ? String(user.height) : f.value)} className="text-text-secondary hover:text-text-primary">
+                  <button onClick={() => startEdit(f.key, f.key === "height" ? String(user.height) : f.value)} className="cursor-pointer text-text-secondary hover:text-text-primary">
                     <Edit3 size={14} />
                   </button>
                 )}
@@ -118,7 +118,7 @@ export default function ProfilePage() {
                   }
                   setEditHobbies(!editHobbies);
                 }}
-                className={editHobbies ? "text-teal" : "text-text-secondary hover:text-text-primary"}
+                className={editHobbies ? "text-teal" : "cursor-pointer text-text-secondary hover:text-text-primary"}
               >
                 {editHobbies ? <Check size={14} /> : <Edit3 size={14} />}
               </button>
@@ -163,7 +163,7 @@ export default function ProfilePage() {
                   <Check size={14} />
                 </button>
               ) : (
-                <button onClick={() => startEdit("bio", user.bio)} className="text-text-secondary hover:text-text-primary">
+                <button onClick={() => startEdit("bio", user.bio)} className="cursor-pointer text-text-secondary hover:text-text-primary">
                   <Edit3 size={14} />
                 </button>
               )}
@@ -180,6 +180,18 @@ export default function ProfilePage() {
               <p className="text-sm text-text-primary leading-relaxed">{user.bio}</p>
             )}
           </div>
+
+        </div>
+
+        <div className="mt-8 border-t border-border-subtle pt-6">
+          <button
+            type="button"
+            onClick={logout}
+            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-destructive/30 bg-transparent py-3 text-sm font-medium text-destructive transition-colors hover:border-destructive/50 hover:bg-destructive/10"
+          >
+            <LogOut size={16} />
+            ログアウト
+          </button>
         </div>
       </motion.div>
       <BottomTabBar />
