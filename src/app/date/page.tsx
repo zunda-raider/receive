@@ -2,6 +2,7 @@
 
 import { FormEvent, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -10,7 +11,6 @@ import {
   CalendarDays,
   Check,
   CheckCircle2,
-  ChevronRight,
   Clock3,
   Lightbulb,
   MapPin,
@@ -31,6 +31,7 @@ import {
   upcomingDatePlan,
   type DatePlan,
 } from "@/lib/mock-data";
+import { isReviewSaved } from "@/lib/date-storage";
 
 type Preparation = {
   purpose: string;
@@ -49,8 +50,6 @@ type SavedDateState = {
   chat: ChatMessage[];
   savedAt: string;
 };
-
-const REVIEW_KEY = `aime:date-review:v1:${latestPastDate.id}`;
 
 const getInitialPreparation = (datePlan: DatePlan): Preparation => ({
   purpose: datePlan.initialPurpose,
@@ -162,9 +161,7 @@ function DatePlanContent({ datePlan }: { datePlan: DatePlan }) {
   const [chatInput, setChatInput] = useState("");
   const [savedSnapshot, setSavedSnapshot] = useState("");
   const [savedAt, setSavedAt] = useState<string | null>(null);
-  const [showReview, setShowReview] = useState(false);
   const [reviewCompleted, setReviewCompleted] = useState(false);
-  const [reviewRating, setReviewRating] = useState("");
   const [notice, setNotice] = useState<string | null>(null);
   const [isAiTyping, setIsAiTyping] = useState(false);
   const responseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -196,7 +193,7 @@ function DatePlanContent({ datePlan }: { datePlan: DatePlan }) {
       } else {
         setSavedSnapshot(JSON.stringify({ preparation: initialPreparation, chat: initialChat }));
       }
-      setReviewCompleted(window.localStorage.getItem(REVIEW_KEY) === "completed");
+      setReviewCompleted(isReviewSaved(latestPastDate.id));
     });
     return () => {
       active = false;
@@ -248,14 +245,6 @@ function DatePlanContent({ datePlan }: { datePlan: DatePlan }) {
     flash("デートの準備を保存しました");
   };
 
-  const submitReview = () => {
-    if (!reviewRating) return;
-    window.localStorage.setItem(REVIEW_KEY, "completed");
-    setReviewCompleted(true);
-    setShowReview(false);
-    flash("彩花さんとの振り返りを記録しました");
-  };
-
   return (
     <AuthGuard>
       <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 space-y-4 px-5 pb-28 pt-6">
@@ -264,7 +253,7 @@ function DatePlanContent({ datePlan }: { datePlan: DatePlan }) {
           <p className="mt-1 text-xs text-text-secondary">当日を自然体で楽しむために、少しだけ準備しておきましょう。</p>
         </header>
 
-        <DateCalendar selectedDate={datePlan.date} linkCustomEvents />
+        <DateCalendar selectedDate={datePlan.date} />
 
         {!reviewCompleted ? (
           <section className="rounded-[20px] border border-coral/30 bg-coral/10 p-4">
@@ -274,23 +263,7 @@ function DatePlanContent({ datePlan }: { datePlan: DatePlan }) {
                 <p className="text-xs font-semibold text-coral">前回の振り返りがまだです</p>
                 <p className="mt-1 text-sm font-medium text-text-primary">7/27 彩花さんとのカフェ</p>
                 <p className="mt-1 text-[11px] leading-relaxed text-text-secondary">覚えているうちに記録すると、次のデートへのヒントが見つかります。</p>
-                {!showReview ? (
-                  <button type="button" onClick={() => setShowReview(true)} className="mt-3 flex items-center gap-1 text-xs font-semibold text-coral">
-                    振り返りを回答する <ChevronRight size={14} />
-                  </button>
-                ) : (
-                  <div className="mt-3 rounded-xl bg-navy-card/80 p-3">
-                    <p className="text-[11px] text-text-primary">デート全体の手応えは？</p>
-                    <div className="mt-2 flex gap-2">
-                      {["よかった", "ふつう", "もう少し"].map((rating) => (
-                        <button key={rating} type="button" onClick={() => setReviewRating(rating)} className={`rounded-lg border px-2.5 py-1.5 text-[10px] ${reviewRating === rating ? "border-coral bg-coral/10 text-coral" : "border-border-subtle text-text-secondary"}`}>
-                          {rating}
-                        </button>
-                      ))}
-                    </div>
-                    <button type="button" disabled={!reviewRating} onClick={submitReview} className="mt-3 rounded-lg bg-coral px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-40">回答を記録</button>
-                  </div>
-                )}
+                <Link href={`/date/review?date=${latestPastDate.date}&id=${latestPastDate.id}`} className="mt-3 inline-flex items-center rounded-lg bg-coral px-3 py-2 text-xs font-semibold text-white">振り返りを回答する</Link>
               </div>
             </div>
           </section>
@@ -412,11 +385,12 @@ function DatePageFromSearch() {
   const selectedDate = searchParams.get("date") ?? "2026-08-05";
   const customTitle = searchParams.get("title");
   const customTime = searchParams.get("time");
+  const customId = searchParams.get("id");
   const registeredPlan = datePlans.find((plan) => plan.date === selectedDate);
   const partnerName = customTitle?.match(/^(.+?)さん/)?.[1];
   const datePlan = registeredPlan ?? (customTitle && customTime ? {
     ...upcomingDatePlan,
-    id: `custom-date-${selectedDate}`,
+    id: customId ?? `custom-date-${selectedDate}-${customTime.replace(":", "")}`,
     date: selectedDate,
     time: customTime,
     title: customTitle,

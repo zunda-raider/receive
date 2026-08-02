@@ -74,6 +74,7 @@ export interface TalkAnalysisResult {
 }
 
 export interface CalendarEvent {
+  id?: string;
   date: string;
   title: string;
   time: string;
@@ -333,11 +334,11 @@ export const talkAnalysisResult: TalkAnalysisResult = {
 };
 
 export const calendarEvents: CalendarEvent[] = [
-  { date: "2026-08-05", title: "美咲さんと初回デート", time: "20:00", type: "date" },
-  { date: "2026-08-09", title: "由佳さんとカフェ", time: "14:00", type: "date" },
+  { id: "date-2026-08-05-misaki", date: "2026-08-05", title: "美咲さんと初回デート", time: "20:00", type: "date" },
+  { id: "date-2026-08-09-yuka", date: "2026-08-09", title: "由佳さんとカフェ", time: "14:00", type: "date" },
   { date: "2026-08-12", title: "奈緒さんとオンライン通話", time: "21:00", type: "call" },
-  { date: "2026-08-15", title: "美咲さんと2回目デート", time: "18:00", type: "date" },
-  { date: "2026-07-27", title: "彩花さんとのカフェ", time: "15:00", type: "date" },
+  { id: "date-2026-08-15-misaki", date: "2026-08-15", title: "美咲さんと2回目デート", time: "18:00", type: "date" },
+  { id: "date-2026-07-27-ayaka", date: "2026-07-27", title: "彩花さんとのカフェ", time: "15:00", type: "date" },
 ];
 
 export const upcomingDatePlan: DatePlan = {
